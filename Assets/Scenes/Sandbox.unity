@@ -199,7 +199,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 14232698}
-  m_LocalRotation: {x: 0.25958583, y: -0.0000000033233087, z: 8.933063e-10, w: 0.9657201}
+  m_LocalRotation: {x: 0.25958586, y: 0.0000000033233087, z: -8.933064e-10, w: 0.96572006}
   m_LocalPosition: {x: 0, y: 10.6472, z: -15.419885}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -250,6 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 123907370}
   - component: {fileID: 123907369}
+  - component: {fileID: 123907371}
   m_Layer: 0
   m_Name: Third Person Camera
   m_TagString: Untagged
@@ -375,6 +376,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &123907371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123907368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 256
+  m_IgnoreTag: Player
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.1
+  m_Strategy: 0
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
 --- !u!1 &143178939
 GameObject:
   m_ObjectHideFlags: 3
@@ -879,7 +910,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 949325237}
-  m_LocalRotation: {x: 0.2701103, y: -0.000000031063895, z: 0.00000005632362, w: 0.9628294}
+  m_LocalRotation: {x: 0.27011034, y: 0.000000002069728, z: 0.00000004702838, w: 0.9628294}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -896,7 +927,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1401686916}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -931,7 +962,7 @@ GameObject:
   - component: {fileID: 1407302888}
   - component: {fileID: 1407302887}
   - component: {fileID: 1407302886}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1078,7 +1109,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1426911037}
-  m_LocalRotation: {x: 0.25255224, y: 0.000000007018447, z: 0.00000000283027, w: 0.9675833}
+  m_LocalRotation: {x: 0.25255224, y: -0.000000009630161, z: 0.0000000071757804, w: 0.9675833}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1158,7 +1189,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1692246519}
-  m_LocalRotation: {x: 0.23495732, y: 0.000000007600985, z: 0.0000000011283523, w: 0.9720057}
+  m_LocalRotation: {x: 0.23495732, y: -0.000000009123717, z: 0.0000000051711178, w: 0.9720057}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1372,6 +1403,11 @@ PrefabInstance:
     - target: {fileID: 6724907837850124668, guid: 80fca813ba4c88045ae3fc088041f7b6,
         type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6724907837850124668, guid: 80fca813ba4c88045ae3fc088041f7b6,
+        type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6724907837850124671, guid: 80fca813ba4c88045ae3fc088041f7b6,
