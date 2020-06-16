@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     //Components
     [SerializeField] CharacterController characterController;
+    [SerializeField] Transform camera;
 
     //Velocity Variables
     [SerializeField] float speed = 1.0f;
@@ -46,12 +47,13 @@ public class PlayerController : MonoBehaviour
         if (direction.magnitude > Mathf.Epsilon)
         {
             //Rotation
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmooth, turnSmoothTime); //Smooth Rotation
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             //Move Player
-            characterController.Move(direction);
+            Vector3 directionCamera = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            characterController.Move(directionCamera.normalized * speed * Time.deltaTime); //Normalize Vector when moving
         }
 
         if(Input.GetButtonDown("Jump") && isGrounded)
