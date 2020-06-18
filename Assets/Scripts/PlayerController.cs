@@ -30,7 +30,13 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //Ground Check
+        bool wasGrounded = isGrounded;
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        if (isGrounded != wasGrounded && wasGrounded == false)
+        {
+            onGroundLand();
+        }
 
         if (isGrounded && velocity.y < 0)
         {
@@ -53,10 +59,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             //Move Player
-            if (isGrounded)
-            {
-                animator.SetBool("isWalking", true);
-            }
+            animator.SetBool("isWalking", true);
             Vector3 directionCamera = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             characterController.Move(directionCamera.normalized * speed * Time.deltaTime); //Normalize Vector when moving
         }
@@ -74,5 +77,10 @@ public class PlayerController : MonoBehaviour
         //Apply Gravity
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
+    }
+
+    void onGroundLand()
+    {
+
     }
 }
