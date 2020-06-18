@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     //Components
     [SerializeField] CharacterController characterController;
     [SerializeField] Transform camera;
+    [SerializeField] Animator animator;
 
     //Velocity Variables
     [SerializeField] float speed = 1.0f;
@@ -52,12 +53,17 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             //Move Player
+            animator.SetBool("isWalking", true);
             Vector3 directionCamera = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             characterController.Move(directionCamera.normalized * speed * Time.deltaTime); //Normalize Vector when moving
+        } else
+        {
+            animator.SetBool("isWalking", false);
         }
 
         if(Input.GetButtonDown("Jump") && isGrounded)
         {
+            animator.SetTrigger("jump");
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
