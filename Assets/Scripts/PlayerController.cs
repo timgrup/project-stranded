@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
         //Ground Check
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        if(isGrounded && velocity.y < 0)
+        if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
@@ -56,12 +56,13 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isWalking", true);
             Vector3 directionCamera = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             characterController.Move(directionCamera.normalized * speed * Time.deltaTime); //Normalize Vector when moving
-        } else
+        }
+        else
         {
             animator.SetBool("isWalking", false);
         }
 
-        if(Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             animator.SetTrigger("jump");
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
