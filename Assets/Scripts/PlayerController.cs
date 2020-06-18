@@ -53,7 +53,10 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             //Move Player
-            animator.SetBool("isWalking", true);
+            if (isGrounded)
+            {
+                animator.SetBool("isWalking", true);
+            }
             Vector3 directionCamera = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             characterController.Move(directionCamera.normalized * speed * Time.deltaTime); //Normalize Vector when moving
         }
