@@ -1,2 +1,2 @@
 # project-stranded
-Project by Tim Grupczynski, Mouad Tahre and Christoph Hampel.
+Project by Tim Grupczynski, Christoph Hampel and Mouad Tahre.
