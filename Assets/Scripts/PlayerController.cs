@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f;
+            velocity.y = 0f;
         }
 
         //Get Input
@@ -77,10 +77,18 @@ public class PlayerController : MonoBehaviour
         //Apply Gravity
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
+        print(velocity.y);
+        if(velocity.y < -0.5f)
+        {
+            animator.SetFloat("velocity", velocity.y);
+        } else
+        {
+            animator.SetFloat("velocity", 0f);
+        }
     }
 
     void onGroundLand()
     {
-        animator.SetBool("isJumping", false);
+        animator.SetTrigger("land");
     }
 }
