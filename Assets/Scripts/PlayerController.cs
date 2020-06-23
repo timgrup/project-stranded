@@ -29,15 +29,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        //Ground Check
-        bool wasGrounded = isGrounded;
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        GroundCheck();
 
-        if (isGrounded != wasGrounded && wasGrounded == false)
-        {
-            onGroundLand();
-        }
-
+        //Set Velocity to 0 if grounded
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = 0f;
@@ -68,22 +62,43 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isWalking", false);
         }
 
+        Jump();
+
+        //Apply Gravity
+        ApplyGravity();
+    }
+
+    private void ApplyGravity()
+    {
+        velocity.y += gravity * Time.deltaTime;
+        characterController.Move(velocity * Time.deltaTime);
+        if (velocity.y < -0.5f)
+        {
+            animator.SetFloat("velocity", velocity.y);
+        }
+        else
+        {
+            animator.SetFloat("velocity", 0f);
+        }
+    }
+
+    private void Jump()
+    {
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             animator.SetTrigger("jump");
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
+    }
 
-        //Apply Gravity
-        velocity.y += gravity * Time.deltaTime;
-        characterController.Move(velocity * Time.deltaTime);
-        print(velocity.y);
-        if(velocity.y < -0.5f)
+    private void GroundCheck()
+    {
+        bool wasGrounded = isGrounded;
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        if (isGrounded != wasGrounded && wasGrounded == false)
         {
-            animator.SetFloat("velocity", velocity.y);
-        } else
-        {
-            animator.SetFloat("velocity", 0f);
+            onGroundLand();
         }
     }
 
