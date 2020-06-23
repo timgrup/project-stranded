@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speed = 1.0f;
     [SerializeField] float gravity = -9.81f; //Earth Gravity
     public float jumpHeight = 3.0f;
+    Vector3 velocity;
 
     //Turn Variables
     [SerializeField] float turnSmoothTime = 0.1f;
@@ -23,9 +24,8 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
-
-    Vector3 velocity;
     bool isGrounded;
+
 
     void Update()
     {
@@ -37,35 +37,46 @@ public class PlayerController : MonoBehaviour
             velocity.y = 0f;
         }
 
+        Move();
+        Jump();
+        ApplyGravity();
+    }
+
+    private void Move()
+    {
         //Get Input
         float horizontalThrow = Input.GetAxis("Horizontal");
         float verticalThrow = Input.GetAxis("Vertical");
 
-        //Direction Vector
-        Vector3 rawDirection = new Vector3(horizontalThrow, 0, verticalThrow).normalized;
-        Vector3 direction = rawDirection * speed * Time.deltaTime;
+        //Direction
+        Vector3 rawDirection = new Vector3(horizontalThrow, 0f, verticalThrow).normalized * speed * Time.deltaTime;
+        Vector3 direction = rawDirection;
 
-        if (direction.magnitude > Mathf.Epsilon)
+        float targetAngle = transform.eulerAngles.y;
+        if (Input.GetKey(KeyCode.Mouse1)) //Right Click
         {
-            //Rotation
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmooth, turnSmoothTime); //Smooth Rotation
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            targetAngle = camera.eulerAngles.y;
+        }
+        else if (rawDirection.magnitude > Mathf.Epsilon) //Moving because of input
+        {
+            targetAngle = Mathf.Atan2(rawDirection.x, rawDirection.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
+            direction = Vector3.forward * speed * Time.deltaTime;
+        }
+        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmooth, turnSmoothTime);
+        transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            //Move Player
+        Vector3 cameraDirection = Quaternion.Euler(0f, angle, 0f) * direction;
+
+        characterController.Move(cameraDirection);
+
+        if (cameraDirection.magnitude >= Mathf.Epsilon)
+        {
             animator.SetBool("isWalking", true);
-            Vector3 directionCamera = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            characterController.Move(directionCamera.normalized * speed * Time.deltaTime); //Normalize Vector when moving
         }
         else
         {
             animator.SetBool("isWalking", false);
         }
-
-        Jump();
-
-        //Apply Gravity
-        ApplyGravity();
     }
 
     private void ApplyGravity()
