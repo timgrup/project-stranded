@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     //Components
     [SerializeField] CharacterController characterController;
     [SerializeField] Transform camera;
+    [SerializeField] Animator animator;
 
     //Velocity Variables
     [SerializeField] float speed = 1.0f;
@@ -29,11 +30,17 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //Ground Check
+        bool wasGrounded = isGrounded;
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        if(isGrounded && velocity.y < 0)
+        if (isGrounded != wasGrounded && wasGrounded == false)
         {
-            velocity.y = -2f;
+            onGroundLand();
+        }
+
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = 0f;
         }
 
         //Get Input
@@ -52,17 +59,36 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             //Move Player
+            animator.SetBool("isWalking", true);
             Vector3 directionCamera = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             characterController.Move(directionCamera.normalized * speed * Time.deltaTime); //Normalize Vector when moving
         }
-
-        if(Input.GetButtonDown("Jump") && isGrounded)
+        else
         {
+            animator.SetBool("isWalking", false);
+        }
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            animator.SetTrigger("jump");
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
         //Apply Gravity
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
+        print(velocity.y);
+        if(velocity.y < -0.5f)
+        {
+            animator.SetFloat("velocity", velocity.y);
+        } else
+        {
+            animator.SetFloat("velocity", 0f);
+        }
+    }
+
+    void onGroundLand()
+    {
+        animator.SetTrigger("land");
     }
 }
