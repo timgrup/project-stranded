@@ -160,6 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 8890599807149242666}
   camera: {fileID: 0}
+  animator: {fileID: 0}
   speed: 5
   gravity: -9.81
   jumpHeight: 3
