@@ -503,7 +503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPivot: {fileID: 270789877}
-  speed: 5
+  speed: 4
 --- !u!1 &143178939
 GameObject:
   m_ObjectHideFlags: 3
