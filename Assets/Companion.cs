@@ -9,14 +9,12 @@ public class Companion : MonoBehaviour
 
     void Update()
     {
-        transform.rotation = Quaternion.Euler(0f, playerPivot.eulerAngles.y, 0f);
-        Debug.Log(playerPivot.transform.localPosition);
-        Debug.Log(playerPivot.transform.position);
-
-        if(Vector3.Distance(transform.position, playerPivot.transform.position) > Mathf.Epsilon)
+        if (Vector3.Distance(transform.position, playerPivot.transform.position) > Mathf.Epsilon)
         {
             var direction = Vector3.MoveTowards(transform.position, playerPivot.transform.position, speed * Time.deltaTime);
             transform.position = direction;
+
+            transform.LookAt(playerPivot.TransformPoint(Vector3.forward * 0.1f));
         }
     }
 }
