@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 
     //Velocity Variables
     [SerializeField] float speed = 1.0f;
+    [SerializeField] float speedSprint = 2.0f;
     [SerializeField] float gravity = -9.81f; //Earth Gravity
     public float jumpHeight = 3.0f;
     Vector3 velocity;
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
     bool isGrounded;
+
+    bool isSprinting = false;
 
 
     void Update()
@@ -47,6 +50,10 @@ public class PlayerController : MonoBehaviour
         //Get Input
         float horizontalThrow = Input.GetAxis("Horizontal");
         float verticalThrow = Input.GetAxis("Vertical");
+
+        SprintControl();
+        var speed = this.speed;
+        if (isSprinting) speed = speedSprint;
 
         //Direction
         Vector3 rawDirection = new Vector3(horizontalThrow, 0f, verticalThrow).normalized * speed * Time.deltaTime;
@@ -76,6 +83,18 @@ public class PlayerController : MonoBehaviour
         else
         {
             animator.SetBool("isWalking", false);
+        }
+    }
+
+    private void SprintControl()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && isGrounded)
+        {
+            isSprinting = true;
+        }
+        else if (!Input.GetKey(KeyCode.LeftShift) && isGrounded)
+        {
+            isSprinting = false;
         }
     }
 
